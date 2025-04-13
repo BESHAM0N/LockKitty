@@ -8,6 +8,6 @@ namespace LockKitty
     {   
         public string Id { get; set; }
         public string SectionTitle { get; set; }
-        public List<CredentialItem> Items { get; set; }
+        public List<CatButton> Items { get; set; }
     }
 }

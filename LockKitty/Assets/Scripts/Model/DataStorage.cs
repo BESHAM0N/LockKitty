@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace LockKitty
 {
-    public static class DataStorage
+    public sealed class DataStorage
     {
         private static readonly string _fileName = "data.json";
         private static string _filePath => Path.Combine(Application.persistentDataPath, _fileName);
@@ -15,7 +15,7 @@ namespace LockKitty
         /// Сохраняет данные в файл.
         /// </summary>
         /// <param name="data">Объект CredentialData, содержащий все разделы и записи.</param>
-        public static void SaveData(CredentialData data)
+        public void SaveData(CatsData data)
         {
             try
             { 
@@ -34,24 +34,24 @@ namespace LockKitty
         /// Загружает данные из файла.
         /// </summary>
         /// <returns>Объект CredentialData, содержащий разделы и записи. Если файла нет, возвращается новый объект.</returns>
-        public static CredentialData LoadData()
+        public CatsData LoadData()
         {
             if (!File.Exists(_filePath))
             {
                 Debug.Log("Data file not found. Creating new credential data.");
-                return new CredentialData { Sections = new List<Section>() };
+                return new CatsData { Sections = new List<Section>() };
             }
         
             try
             {
                 var json = File.ReadAllText(_filePath);
-                var data = JsonConvert.DeserializeObject<CredentialData>(json);
-                return data ?? new CredentialData { Sections = new List<Section>() };
+                var data = JsonConvert.DeserializeObject<CatsData>(json);
+                return data ?? new CatsData { Sections = new List<Section>() };
             }
             catch (Exception ex)
             {
                 Debug.LogError("Error loading data: " + ex.Message);
-                return new CredentialData { Sections = new List<Section>() };
+                return new CatsData { Sections = new List<Section>() };
             }
         }
     }

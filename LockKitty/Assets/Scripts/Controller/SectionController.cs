@@ -1,18 +1,12 @@
 ﻿using System;
 using LockKitty;
-using Services;
 using UnityEngine;
 
 namespace Controller
 {
     public sealed class SectionController : MonoBehaviour
     {
-        private CredentialData credentialData;
-
-        private void Awake()
-        {
-            credentialData = DataStorage.LoadData();
-        }
+        [SerializeField] private CatsDataController _catsDataController;
 
         public void AddSection(string sectionTitle)
         {
@@ -20,29 +14,15 @@ namespace Controller
             {
                 Id = Guid.NewGuid().ToString(),
                 SectionTitle = sectionTitle,
-                Items = new System.Collections.Generic.List<CredentialItem>()
+                Items = new System.Collections.Generic.List<CatButton>()
             };
-
-            credentialData.Sections.Add(newSection);
             
-            DataStorage.SaveData(credentialData);
-            Observer.RaiseSectionChanged();
-            Observer.RaiseCredentialDataChanged();
+            _catsDataController.AddSelection(newSection);
         }
 
         public void RemoveSection(Section section)
         {
-            if (credentialData.Sections.Contains(section))
-            {
-                credentialData.Sections.Remove(section);
-                DataStorage.SaveData(credentialData);
-                Observer.RaiseSectionChanged();
-                Observer.RaiseCredentialDataChanged();
-            }
-            else
-            {
-                Debug.LogWarning("Section not found.");
-            }
+            _catsDataController.RemoveSelection(section);
         }
     }
 }

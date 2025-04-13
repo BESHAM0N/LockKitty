@@ -1,6 +1,8 @@
-﻿namespace View
+﻿using UnityEngine;
+
+namespace View
 {
-    public sealed class ModalWindowView
+    public sealed class ModalWindowView : MonoBehaviour
     {
         
     }
